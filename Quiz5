@@ -1,0 +1,29 @@
+//Tianyi Xie
+//CS 210
+//10/28/20
+//Quiz 5
+public class Quiz5 {
+
+	public static void main(String[] args) {
+		System.out.println(randomString(2));
+		System.out.println(randomInt(3));
+	}
+	
+	//This is the method that returns random lowercase letters
+	public static String randomString(int n) {
+		String result = "";
+		for (int i=1; i<=n; i++) {
+			result += (char)(Math.random() * (122 - 96) + 96) + "";
+		}
+		return result;
+	}
+	
+	//This is the method that returns random numbers based on digits
+	public static int randomInt(int n){
+        String result = "";
+        for(int i=0; i<n; i++){
+            result += (int)(Math.random()*8+1);
+        }
+        return Integer.parseInt(result);
+    }
+}
