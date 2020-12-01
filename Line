@@ -1,0 +1,74 @@
+//Tianyi Xie
+//CS210
+//11/23/2020
+//This is Coding Assignment #8a
+import java.awt.*;
+
+//Field
+//Class Line that performs the tasks of constructing a Line segment
+public class Line {
+	private Point p1, p2;
+	
+	//Constructors
+	//This is the default constructor that defines the assumed defaults
+	public Line() {
+		this.p1 = new Point();
+		this.p2 = new Point();
+	}
+	
+	//This is the constructor that has given Points
+	public Line(Point p1, Point p2) { 
+		setLocation(p1, p2);
+	}
+	
+	//Mutator
+	//This is the method that changes the values of the points in the constructor
+	public void setLocation(Point p1, Point p2) {
+		this.p1 = p1;
+		this.p2 = p2;
+	}	
+	
+	//Accessors
+	//This is the method that prints the coordinates of the line
+	public String print() {
+		return p1 + " " + p2;
+	}
+	
+	//This is the method that converts the line to String
+	public String toString() {
+		return "[(" + p1.x + ", " + p1.y + "), (" + p2.x + ", " + p2.y + ")]";
+	}
+	
+	//This is the method that returns the values of point 1
+	public Point getP1() {
+		return p1;
+	}
+	
+	//This is the method that returns the values of point 2
+	public Point getP2() {
+		return p2;
+	}
+	
+	//This is the method that gets the slope of the line
+	public double getSlope() {
+		if(p2.x == p1.x) {
+			throw new IllegalStateException();
+		}
+		double a = p2.y - p1.y;
+		double b = p2.x - p1.x;
+		double result = a / b;
+		return result;
+	}
+	
+	//This is the method that plots the points on the graphic of the line
+	public void plot(Graphics g) {
+		g.drawLine(p1.x, p1.y, p2.x, p2.y);
+	}
+	
+	//This is the method that finds the length of the line
+	public double getLength() {
+		double a = p2.y - p1.y;
+		double b = p2.x - p1.x;
+		return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+	}
+}
