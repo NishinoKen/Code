@@ -1,0 +1,47 @@
+import java.awt.*;
+
+public class MickeyBox {
+
+	public static void main(String[] args) {
+		DrawingPanel p = new DrawingPanel(1, 1);
+		Graphics g = p.getGraphics();
+		showDesign(g,1000, 1000);
+	}
+
+	public static void drawFigure(Graphics g, int x, int y) {
+		g.setColor(Color.BLUE);
+		g.fillOval(x, y, 40, 40);
+		g.fillOval(x+80, y, 40, 40);
+		g.setColor(Color.RED);
+		g.fillRect(x+20, y+20, 80, 40);
+		g.fillRect(x+20, y+60, 80, 40);
+		g.setColor(Color.BLACK);
+		g.drawLine(x+20, y+60, x+100, y+60);
+	}
+	
+	public static void face(Graphics g, int x, int y) {
+		g.setColor(Color.BLACK);
+		g.drawOval(x, y, 100, 100); //face outline
+		
+		g.setColor(Color.BLUE);
+		g.fillOval(x+20, y+30, 20, 20);
+		g.fillOval(x+60, y+30, 20, 20); //eyes
+		
+		g.setColor(Color.RED);
+		g.drawLine(x+30, y+70, x+70, y+70); //mouth
+	}
+	
+	public static void showDesign(Graphics g, int x, int y) {
+		DrawingPanel p = new DrawingPanel(x, y);
+		g = p.getGraphics();
+		int x1 = x/10;
+		int y1 = y/10;
+		int length = x-x1-x1;
+		int width = y-y1-y1;
+		int x2 = x/5;
+		int y2 = y/5;
+		for(int i=1; i<=4; i++) {
+			g.drawRect(x1*i, y1*i, length-x2*i+x2, width-y2*i+y2);
+		}
+	}
+}
