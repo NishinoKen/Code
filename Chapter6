@@ -1,0 +1,30 @@
+//Tianyi Xie
+//CS210
+//11/9/2020
+//This is Chapter6 Assignment
+import java.io.*;
+import java.util.*;
+public class Chapter6 {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		Scanner input = new Scanner(new File("BCwebSiteHTML.txt"));
+		System.out.println(countHref(input));
+	}
+	
+	//Method that counts and prints all the Href URL
+	public static int countHref(Scanner input) throws FileNotFoundException {
+		int count = 0;
+		String line = input.nextLine();
+		line = input.nextLine();
+		while(input.hasNextLine()) {
+			line = input.nextLine();
+			while(line.contains("href=\"")) {
+				line = line.substring(line.indexOf("href=\"") + 6, line.length());
+				System.out.println(line.substring(0, line.indexOf("\"")));
+				count++;
+				}
+			}
+		return count;
+	}
+
+}
