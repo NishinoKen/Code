@@ -1,0 +1,174 @@
+public class Date {
+	private int year;
+	private int month;
+	private int day;
+	
+	public Date(int year, int month, int day) {
+		setYear(year);
+		setMonth(month);
+		setDay(day);
+	}
+	
+	public Date() {
+		setYear(1970);
+		setMonth(1);
+		setDay(1);
+	}
+	
+	public void addDays(int days) {
+		this.day += days;
+		checkDate();
+	}
+	
+	public void addWeeks(int weeks) {
+		this.day += 7 * weeks;
+		checkDate();
+	}
+	
+	public void setYear(int year) {
+		if(year < 1582) {
+			throw new IllegalArgumentException();
+		}
+		this.year = year;
+	}
+	
+	public void setMonth(int month) {
+		if(month <= 0 || month > 12) {
+			throw new IllegalArgumentException();
+		}
+		this.month = month;
+	}
+	
+	public void setDay(int day) {
+		if(day <= 0 || day > 31) {
+			throw new IllegalArgumentException();
+		} else if (day > daysInMonth(this.month, this.year)) {
+			throw new IllegalArgumentException();
+		} else {
+		this.day = day;
+		}
+	}
+
+	public int daysTo(Date other) {
+		if(this.year == other.year && this.month == other.month && this.day == other.day) {
+			return 0;
+		}
+		
+		int result = 0;
+		Date temp = new Date(this.year, this.month, this.day);
+		
+		if((temp.year > other.year && temp.month > other.month && temp.day > other.day) 
+				|| (temp.year == other.year && temp.month > other.month && temp.day > other.day) 
+						|| (temp.year == other.year && temp.month == other.month && temp.day > other.day)) {
+			while(temp.year != other.year || temp.month != other.month || temp.day != other.day) {
+				temp.addDays(-1);
+				result--;
+			}
+		} else {
+			while(temp.year != other.year || temp.month != other.month || temp.day != other.day) {
+				temp.addDays(1);
+				result++;
+			}
+		}
+		return result;
+	}
+	
+	public int getDay() {
+		return this.day;
+	}
+	
+	public int getMonth() {
+		return this.month;
+	}
+	
+	public int getYear() {
+		return this.year;
+	}
+	
+	
+	public String toString() {
+		String month = Integer.toString(this.month);
+		String day = Integer.toString(this.day);
+		if(month.length() == 1) {
+			month = 0 + month;
+		}
+		if(day.length() == 1) {
+			day = 0 + day;
+		}
+		return year + "/" + month + "/" + day;
+	}
+	
+	public boolean isLeapYear() {
+		if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public int daysInMonth(int month, int year) {
+		if (month==2) {
+			if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
+				return 29;
+			} else {
+				return 28;
+			}
+		} else if (month==4 || month==6 || month==9 || month==11) {
+			return 30;
+		} else {
+			return 31;
+		}
+	}
+	
+	public void checkDate() {
+		while(this.day <= 0) {
+			this.month--;
+			if(this.day == 0) {
+				this.day = daysInMonth(this.month, this.year);
+			} else {
+				this.day = (daysInMonth(this.month, this.year) + this.day);
+			}
+			if(this.month < 1) {
+				this.year--;
+				this.month = 12;
+			}
+		}
+		
+		while(this.day > daysInMonth(this.month, this.year)) {
+			this.day = Math.abs(this.day - daysInMonth(this.month, this.year));
+			this.month++;
+			if(this.month > 12) {
+				this.year++;
+				this.month = 1;
+			}
+		}
+	}
+	
+	public String longDate() {
+		if(this.month == 1) {
+			return "January " + this.day + ", " + this.year;
+		} else if (this.month == 2) {
+			return "Febuary " + this.day + ", " + this.year;
+		} else if (this.month == 3) {
+			return "March " + this.day + ", " + this.year;
+		} else if (this.month == 4) {
+			return "April " + this.day + ", " + this.year;
+		} else if (this.month == 5) {
+			return "May " + this.day + ", " + this.year;
+		} else if (this.month == 6) {
+			return "June " + this.day + ", " + this.year;
+		} else if (this.month == 7) {
+			return "July " + this.day + ", " + this.year;
+		} else if (this.month == 8) {
+			return "August " + this.day + ", " + this.year;
+		} else if (this.month == 9) {
+			return "September " + this.day + ", " + this.year;
+		} else if (this.month == 10) {
+			return "October " + this.day + ", " + this.year;
+		} else if (this.month == 11) {
+			return "November " + this.day + ", " + this.year;
+		} else {
+			return "December " + this.day + ", " + this.year;
+		}
+	}
+}
