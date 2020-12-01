@@ -1,0 +1,30 @@
+//Tianyi Xie
+//CS210
+//11/4/2020
+//Chapter 3G Quiz
+import java.awt.*;
+
+public class SquareFaceX {
+
+	public static void main(String[] args) {
+		DrawingPanel p = new DrawingPanel(800,800);
+		Graphics g = p.getGraphics();
+		for(int i=1; i<=15; i++) {
+			g.setColor(Color.BLACK);
+			g.drawRect(50*i-25, 50*i-25, 50, 50);
+			g.setColor(Color.BLUE);
+			g.fillOval(50*i-15, 50*i-10, 10, 10);
+			g.fillOval(50*i+5, 50*i-10, 10, 10);
+			g.setColor(Color.RED);
+			g.drawLine(50*i-10, 50*i+10, 50*i+10, 50*i+10); //codes to draw 15 squares diagonally in x+ y+ direction
+			
+			g.setColor(Color.BLACK);
+			g.drawRect(50*i-25, -(50*i)+775, 50, 50);
+			g.setColor(Color.BLUE);
+			g.fillOval(50*i-15, -(50*i)+790, 10, 10);
+			g.fillOval(50*i+5, -(50*i)+790, 10, 10);
+			g.setColor(Color.RED);
+			g.drawLine(50*i-10, -(50*i)+810, 50*i+10, -(50*i)+810); //codes to draw 15 squares diagonally in x+ y- direction
+		}
+	}
+}
