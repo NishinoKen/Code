@@ -1,0 +1,109 @@
+//Tianyi Xie
+//CS210
+//11/2/20
+//Coding Assignment 4 & Coding Assignment 3G
+import java.util.*;
+import java.awt.*;
+
+public class DayGrid {
+
+	public static void main(String[] args) {
+		DrawingPanel p = new DrawingPanel(400, 200);
+		Graphics g = p.getGraphics();
+		Color c = new Color(90, 130, 234);
+		p.setBackground(c);
+		showGrid(g, 2, 2020);
+	}
+	
+	//Method to print month as a grid on DrawingPanel
+	public static void showGrid(Graphics g, int month, int year) {
+		GregorianCalendar calendar = new GregorianCalendar(year, month-1,1);
+		if (month >= 1 && month <= 12) {
+		} else {
+			throw new ArithmeticException("Month Error");
+			}
+		if (year >= 1900 && year <= 2100) {
+		} else {
+			throw new ArithmeticException("Year Error");
+		}
+		
+		g.setFont(new Font("Monospaced", Font.BOLD+Font.ITALIC, 14));
+		g.drawString("Month: " + Integer.toString(month), 50, 20);
+		g.drawString("Year: " + Integer.toString(year), 150, 20);
+		g.drawString("Sun", 57, 50);
+		g.drawString("Mon", 97, 50);
+		g.drawString("Tue", 134, 50);
+		g.drawString("Wed", 172, 50);
+		g.drawString("Thu", 210, 50);
+		g.drawString("Fri", 250, 50);
+		g.drawString("Sat", 287, 50);
+		
+		int x = 25;
+		int y = 73;
+		int z = 57;
+		for(int j=1; j<=daysInMonth(month, year); j++) {
+			for(int i=0; i<7; i++) {
+				g.drawRect(50+38*i, z, 38, 20);
+			}
+			g.drawString(Integer.toString(j), x+38*(calendar.get(Calendar.DAY_OF_WEEK)), y);
+			if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+				y = y + 20;
+				x = 25;
+				z = z + 20;
+		}
+			calendar.add(Calendar.DAY_OF_MONTH,1);
+		}
+	}
+	
+	//Method to print month as a grid
+	public static void showGrid(int month, int year) {
+		GregorianCalendar calendar = new GregorianCalendar(year, month-1,1);
+		int firstWeek = calendar.get(Calendar.DAY_OF_WEEK);
+		if (month >= 1 && month <= 12) {
+		} else {
+			throw new ArithmeticException("Month Error");
+			}
+		
+		if (year >= 1900 && year <= 2100) {
+		} else {
+			throw new ArithmeticException("Year Error");
+		}
+
+		System.out.println("  Sun    Mon    Tue    Wed    Thu    Fri    Sat");
+			dividingLine();
+
+			for(int i=1; i<=firstWeek-1; i++) {
+				System.out.print("|      ");
+			}
+
+			for(int j=1; j<=daysInMonth(month, year); j++) {
+				System.out.printf("|%4d  ", j);
+				if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+					System.out.print("|\n");
+				}
+				calendar.add(Calendar.DAY_OF_MONTH,1);
+			}
+			System.out.println();
+			dividingLine();
+	}
+
+	//Method that adds line
+	public static void dividingLine() {
+		System.out.println("+------+------+------+------+------+------+------+");
+	}
+
+	//Method that shows how many days are in a month, including leap years
+	public static int daysInMonth(int month, int year) {
+		if (month==2) {
+			if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
+				return 29;
+			} else {
+				return 28;
+			}
+		} else if (month==4 || month==6 || month==9 || month==11) {
+			return 30;
+		} else {
+			return 31;
+		}
+	}
+}
