@@ -1,0 +1,77 @@
+//Tianyi Xie
+//CS210
+//11/16/20
+//Chapter 7 Assignment
+
+import java.io.*;
+import java.util.*;
+
+public class SumBigInts {
+	public static final int MAX_DIGITS = 30;
+	
+	public static void main(String[] args) throws FileNotFoundException {
+		Scanner input = new Scanner(new File("sum.txt"));
+		processFile(input);
+	}
+	
+	//This is method processFile that gets value from Scanner input and computes the sum for each line of integers.
+	public static void processFile(Scanner input) throws ArrayIndexOutOfBoundsException {
+		int count = 0;
+		while (input.hasNextLine()) {
+			int[] result = new int [MAX_DIGITS];
+			String line = input.nextLine();
+			Scanner token = new Scanner(line);
+			count++;
+			
+			while(token.hasNext()) { 
+				int[] digit = new int[MAX_DIGITS];
+				int carry = 0;
+				String value = token.next();
+				
+				for(int i = 0; i < value.length(); i++) {
+					digit[i] = value.charAt(i) - '0';
+				}
+					
+				for(int i = 0; i < digit.length - value.length(); i++) {
+					int temp = digit[digit.length-1];
+					for(int j = digit.length - 1; j > 0; j--) {
+						digit[j] = digit[j - 1];
+					}
+					digit[0]= temp;
+				}
+
+				for(int i = digit.length - 1; i > 0; i--) {
+					if (result[i] + digit[i] + carry >= 10) {
+						result[i] = result[i] + digit[i] + carry - 10;
+						carry = 1;
+					} else {
+						result[i] = result[i] + digit[i] + carry;
+						carry = 0;
+					}
+				}
+				
+				int[] number = Arrays.copyOfRange(digit, digit.length - value.length(), digit.length);
+				for(int i = 0; i < number.length; i++) {
+					System.out.print(number[i]);
+				}
+			    
+				if(token.hasNext()) {
+					System.out.print(" + ");
+				}
+			}
+			token.close();
+			System.out.print(" = ");
+			int i = 0;
+			for (; i < result.length; i++) {
+				if (result[i] > 0)
+					break;
+			    }
+			for (; i < result.length; i++) {
+			    System.out.print(result[i]);
+			}
+			    
+			System.out.println();
+		}
+		System.out.println("Total lines = " + count);
+	}
+}
