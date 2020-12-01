@@ -1,0 +1,38 @@
+//Tianyi Xie
+//CS210
+//11/18/20
+//Quiz 7
+public class Quiz7 {
+
+	public static void main(String[] args) {
+		int[] list1 = {1, 11, 1, 1, 1, 1, 22};
+		int[] list2 = {};
+		System.out.println(countUniqueValues(list1));
+		System.out.println(countUniqueValues(list2));
+	}
+	
+	public static int countUniqueValues(int[] array) {
+		if(array.length == 0) {
+			return 0;
+		}
+		int count = 1;
+		for(int i = 0; i < array.length; i++) {
+			for(int j = i + 1; j < array.length; j++) {
+				int tempNumber = 0;
+			    if (array[i] > array[j]) {
+		            tempNumber = array[i];
+		            array[i] = array[j];
+		            array[j] = tempNumber;
+		        }
+			}
+		}
+		
+		for(int i = 0; i < array.length - 1; i++) {
+			if (array[i] != array[i + 1]) {
+				count ++;
+			}
+		}
+		
+		return count;
+	}
+}
