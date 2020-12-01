@@ -1,0 +1,67 @@
+//Tianyi Xie
+//CS 210
+//10/26/2020
+//This is Chapter5 assignment
+
+public class Chapter5 {
+
+	public static void main(String[] args) {
+	}
+	
+	//This is method gcd that returns the greatest common divisor of two integers.
+	public static int gcd(int a, int b) {
+		int result = 1;
+		while (b != 0) {
+			result = a % b;
+			a = b;
+			b = result;
+		}
+		return result = Math.abs(a);
+	}
+	
+	//This is method toBinary that returns a String of the integer number's representation in binary. 
+	public static String toBinary(int number) {
+		return Integer.toBinaryString(number);
+	}
+	
+	//This is method consecutive that returns true or false to whether the series of numbers are consecutive.
+	public static boolean consecutive(int a, int b, int c) {
+		int k = Math.min(a,(Math.min(b,c)));
+		int k2 = Math.max(a,(Math.max(b,c)));
+		int subtraction = k2 - k;
+		if (a == b || b == c || a == c) {
+			return false;
+		} else {
+			return subtraction == 2;
+		}
+	}
+	
+	//This is method digitSum that returns the sum of the number's digits.
+	public static int digitSum(int n) {
+		int abs = Math.abs(n);
+		int sum = 0;
+			
+		while (abs != 0) {
+			sum += abs % 10;
+			abs = abs / 10;
+		}
+		return sum;
+	}
+	
+	//This is method digitRange that returns the result of the max digit subtracting the min digit then adding one.
+	public static int digitRange(int n) {
+		int abs = Math.abs(n);
+		int max = 0;
+		int min = 9;
+		int result = 0;
+	
+		while (abs != 0) {
+			int digit = abs % 10;
+			abs = abs / 10;
+			max = Math.max(max, digit);
+			min = Math.min(min, digit);
+			result = max - min;
+		}
+		return result + 1;
+	}
+}
