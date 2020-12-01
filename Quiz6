@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+
+public class Quiz6 {
+
+	public static void main(String[] args) throws FileNotFoundException {
+		File file = new File("whatever.txt");
+		Scanner input = new Scanner(file);
+		System.out.println(singleSpacedLine(input));
+	}
+	
+	public static String singleSpacedLine(Scanner input) {
+		String result = "";
+		while(input.hasNextLine()) {
+			String line = input.nextLine();
+			Scanner token = new Scanner(line);
+			
+			while(token.hasNext()) {
+				result += (token.next() + " ");
+			}
+			token.close();
+		}
+		
+		return result;
+	}
+}
