@@ -1,70 +1,41 @@
+//Tianyi Xie
+//CS210
+//11/30/2020
+//This is the Date Class for Assignment 8B
 public class Date {
+	/*Fields*/
 	private int year;
 	private int month;
 	private int day;
 	
+	/*Constructors*/
+	//This is the constructor that can be altered with different values for year, month and day
 	public Date(int year, int month, int day) {
 		setYear(year);
 		setMonth(month);
 		setDay(day);
 	}
 	
+	//This is the default constructor that is set to 1970/1/1
 	public Date() {
 		setYear(1970);
 		setMonth(1);
 		setDay(1);
 	}
 	
-	public void addDays(int days) {
-		this.day += days;
-		checkDate();
-	}
-	
-	public void addWeeks(int weeks) {
-		this.day += 7 * weeks;
-		checkDate();
-	}
-	
-	public void setYear(int year) {
-		if(year < 1582) {
-			throw new IllegalArgumentException();
-		}
-		this.year = year;
-	}
-	
-	public void setMonth(int month) {
-		if(month <= 0 || month > 12) {
-			throw new IllegalArgumentException();
-		}
-		this.month = month;
-	}
-	
-	public void setDay(int day) {
-		if(day <= 0 || day > 31) {
-			throw new IllegalArgumentException();
-		} else if (day > daysInMonth(this.month, this.year)) {
-			throw new IllegalArgumentException();
-		} else {
-		this.day = day;
-		}
-	}
-
+	/*Accessors*/
+	//This is the accessor that returns the number of days between two dates.
 	public int daysTo(Date other) {
-		if(this.year == other.year && this.month == other.month && this.day == other.day) {
-			return 0;
-		}
-		
 		int result = 0;
 		Date temp = new Date(this.year, this.month, this.day);
-		
-		if((temp.year > other.year && temp.month > other.month && temp.day > other.day) 
-				|| (temp.year == other.year && temp.month > other.month && temp.day > other.day) 
-						|| (temp.year == other.year && temp.month == other.month && temp.day > other.day)) {
+		if(other.year == temp.year && other.month == temp.month && other.day == temp.day) {
+			return 0;
+		} else if((temp.year > other.year) || (temp.year == other.year && temp.month == other.month && temp.day > other.day) || (temp.year == other.year && temp.month > other.month))  {
 			while(temp.year != other.year || temp.month != other.month || temp.day != other.day) {
 				temp.addDays(-1);
 				result--;
 			}
-		} else {
+		} else { 
 			while(temp.year != other.year || temp.month != other.month || temp.day != other.day) {
 				temp.addDays(1);
 				result++;
@@ -73,19 +44,42 @@ public class Date {
 		return result;
 	}
 	
+	//This is the static version of the accessor that returns the number of days between two dates.
+	public static int daysTo(Date one, Date two) {
+		int result = 0;
+		Date temp = new Date(one.year, one.month, one.day);
+		if(two.year == temp.year && two.month == temp.month && two.day == temp.day) {
+			return 0;
+		} else if((temp.year > two.year) || (temp.year == two.year && temp.month == two.month && temp.day > two.day) || (temp.year == two.year && temp.month > two.month))  {
+			while(temp.year != two.year || temp.month != two.month || temp.day != two.day) {
+				temp.addDays(-1);
+				result--;
+			}
+		} else { 
+			while(temp.year != two.year || temp.month != two.month || temp.day != two.day) {
+				temp.addDays(1);
+				result++;
+			}
+		}
+		return result;
+	}
+	
+	//This is the accessor that returns the day.
 	public int getDay() {
 		return this.day;
 	}
 	
+	//This is the accessor that returns the month.
 	public int getMonth() {
 		return this.month;
 	}
 	
+	//This is the accessor that returns the year.
 	public int getYear() {
 		return this.year;
 	}
 	
-	
+	//This is the accessor that returns the date.
 	public String toString() {
 		String month = Integer.toString(this.month);
 		String day = Integer.toString(this.day);
@@ -98,6 +92,7 @@ public class Date {
 		return year + "/" + month + "/" + day;
 	}
 	
+	//This is the accessor that checks whether the date is a leap year.
 	public boolean isLeapYear() {
 		if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
 			return true;
@@ -106,6 +101,7 @@ public class Date {
 		}
 	}
 	
+	//This is the accessor that returns the number of days in a month.
 	public int daysInMonth(int month, int year) {
 		if (month==2) {
 			if ((year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0)) {
@@ -120,30 +116,28 @@ public class Date {
 		}
 	}
 	
-	public void checkDate() {
-		while(this.day <= 0) {
-			this.month--;
-			if(this.day == 0) {
-				this.day = daysInMonth(this.month, this.year);
-			} else {
-				this.day = (daysInMonth(this.month, this.year) + this.day);
-			}
-			if(this.month < 1) {
-				this.year--;
-				this.month = 12;
-			}
-		}
-		
-		while(this.day > daysInMonth(this.month, this.year)) {
-			this.day = Math.abs(this.day - daysInMonth(this.month, this.year));
-			this.month++;
-			if(this.month > 12) {
-				this.year++;
-				this.month = 1;
-			}
+	//This is the private accessor that checks whether the year is valid.
+	private void checkYear() {
+		if(this.year < 1582 || this.year > 2999) {
+			throw new IllegalArgumentException();
 		}
 	}
 	
+	//This is the private accessor that checks whether the month is valid.
+	private void checkMonth() {
+		if(this.year == 1582 && this.month < 10) {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	//This is the private accessor that checks whether the day is valid.
+	private void checkDay() {
+		if(this.year == 1582 && this.month == 10 && this.day < 15) {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	//This is the accessor that returns the date in a specific format.
 	public String longDate() {
 		if(this.month == 1) {
 			return "January " + this.day + ", " + this.year;
@@ -169,6 +163,77 @@ public class Date {
 			return "November " + this.day + ", " + this.year;
 		} else {
 			return "December " + this.day + ", " + this.year;
+		}
+	}
+	
+	/*Mutators*/
+	//This is the mutator that adds day to the date.
+	public void addDays(int days) {
+		this.day += days;
+		checkDate();
+		checkYear();
+		checkMonth();
+		checkDay();
+	}
+	
+	//This is the mutator that adds week to the date.
+	public void addWeeks(int weeks) {
+		this.day += 7 * weeks;
+		checkDate();
+		checkYear();
+		checkMonth();
+		checkDay();
+	}
+	
+	//This is the mutator that sets the year.
+	public void setYear(int year) {
+		this.year = year;
+		checkYear();
+	}
+	
+	//This is the mutator that sets the month.
+	public void setMonth(int month) {
+		this.month = month;
+		if(month <= 0 || month > 12) {
+			throw new IllegalArgumentException();
+		}
+		checkMonth();
+	}
+	
+	//This is the mutator that sets the day.
+	public void setDay(int day) {
+		if(day <= 0 || day > 31) {
+			throw new IllegalArgumentException();
+		} else if (day > daysInMonth(this.month, this.year)) {
+			throw new IllegalArgumentException();
+		} else {
+		this.day = day;
+		}
+		checkDay();
+	}
+	
+	//This is the private mutator that assists addDays and addWeeks methods so that the months and years are adjusted accordingly.
+	private void checkDate() {
+		while(this.day <= 0) {
+			this.month--;
+			if(this.day == 0) {
+				this.day = daysInMonth(this.month, this.year);
+			} else {
+				this.day = (daysInMonth(this.month, this.year) + this.day);
+			}
+			if(this.month < 1) {
+				this.year--;
+				this.month = 12;
+			}
+		}
+		
+		while(this.day > daysInMonth(this.month, this.year)) {
+			this.day = Math.abs(this.day - daysInMonth(this.month, this.year));
+			this.month++;
+			if(this.month > 12) {
+				this.year++;
+				this.month = 1;
+			}
 		}
 	}
 }
