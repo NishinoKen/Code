@@ -1,0 +1,59 @@
+//Tianyi Xie
+//CS210
+//11/25/2020
+//This is Chapter 8a Quiz
+
+import java.awt.*;
+public class Octagon {
+	private Point center;
+	private double side;
+	
+	/*Fields*/
+	//This is the default constructor that sets all field data to zeroes
+	public Octagon() { 
+		this.center = new Point(0,0);
+		setSide(0);
+	}
+	
+	//This is the constructor that sets the location for Center and length for Sides
+	public Octagon(Point c, double s) {
+		setCenter(c);
+		setSide(s);
+	}
+	
+	/*Accessors*/
+	//This is the accessor that returns the location for center
+	public Point getCenter() {
+		return this.center;
+	}
+	
+	//This is the accessor that returns the length for sides
+	public double getSide() {
+		return this.side;
+	}
+	
+	/*Mutators*/
+	//This is the mutator that sets the location for center
+	public void setCenter(Point c) {
+		this.center = c;
+	}
+	
+	//This is the mutator that sets the length for sides
+	public void setSide(double r) {
+		this.side = r;
+	}
+	
+	//Methods
+	//This is the method that returns the value for area
+	public double area() {
+		double result = 2 * (1 + Math.sqrt(2)) * Math.pow(this.side, 2);
+		result = Math.round(result * 10.0) / 10.0;
+		return result;
+	}
+	
+	//This is the method that returns the value for perimeter
+	public double perimeter() {
+		double result = 8 * this.side;
+		return result;
+	}
+}
