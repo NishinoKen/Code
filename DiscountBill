@@ -1,0 +1,58 @@
+public class DiscountBill extends GroceryBill {
+    private double discount;
+    private int discountCount;
+	private boolean preferred;
+        
+    public DiscountBill(Employee clerk, boolean preferred) {
+        super(clerk);
+        this.preferred = preferred;
+    }
+    
+    public DiscountBill() {
+        super();
+    }
+    
+    public int getDiscountCount() {
+        if(this.preferred == false) {
+            return 0;
+        } else {
+            return this.discountCount;
+        }
+    }
+    
+    public double getDiscountAmount() {
+        if(this.preferred == false) {
+            return 0.0;
+        } else {
+            return this.discount;
+        }
+    }
+    
+    public double getDiscountPercent() {
+        if(this.preferred == false) {
+            return 0.0;
+        } else {
+            return this.discount / super.getTotal() * 100;
+        }
+    }
+    
+    public void add(Item i) {
+        super.add(i);
+        this.discount += i.getDiscount();
+        if(i.getDiscount() > 0.0) {
+            this.discountCount++;
+        }
+    }
+    
+    public double getTotal() {
+        if(this.preferred == false) {
+            return super.getTotal();
+        } else {
+            return super.getTotal() - this.discount;
+        }
+    }
+    
+    public Employee getClerk() {
+        return super.getClerk();
+    }
+}
