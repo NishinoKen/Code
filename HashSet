@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // Implements a set of objects using a hash table.
 // The hash table uses separate chaining to resolve collisions.
 // Original from buildingjavaprograms.com supplements
@@ -20,62 +22,101 @@ public class HashSet<E> {
     	String result = "";
     	String spacing = "       ";
     	String newLine = "\n";
-    	int sizeEntry = -1;
+    	int level = 0;
+    	int maxSize = -1;
     	
-    	
-    	for(int i=0; i<=elementData.length; i++) {
+    	for(int i=0; i<elementData.length; i++) {
     		result = result + "[" + i + "]";
     		result = result + spacing;
     	}
     	result = result + newLine;
     	
+    	for(int i=0; i< elementData.length; i++) {
+    		HashEntry<E> current = elementData[i];
+    		int temp = 0;
+    		if(current != null) {
+    			while(current.next != null) {
+    				temp++;
+    				current = current.next;
+    			}
+    			if(current.next == null) {
+    				temp++;
+    			}
+    		}
+    		if(temp > maxSize) {
+    			maxSize = temp;
+    		}
+    	}
+    	
+    	while(level != maxSize) {	
+    		for(int i=0; i<elementData.length; i++) {
+    			HashEntry<E> current = elementData[i];
+    			ArrayList<E> temp = new ArrayList<>();
+    			
+    			if(current != null) {
+    				while(current.next != null) {
+    					temp.add(current.data);
+    					current = current.next;
+    				}
+    				if(current.next == null) {
+    					temp.add(current.data);
+    				}
+    			}
+
+    			if(temp.size() != 0 && level < temp.size()) {
+    				String data = "" + temp.get(level);
+    				result = result + data;
+    				for(int j=0; j<10-data.length(); j++) {
+    					result = result + " ";
+    				}
+    			
+    			} else {
+    				result = result + spacing + "   ";
+    			}
+    			int count = 0;
+    			int temp2 = i;
+    			while(temp2 != 0) {
+    				temp2 = temp2/10;
+    				count++;
+    			}
+    			for(int k=0; k<count-1; k++) {
+    				result = result + " ";
+    			}
+    		}
+    		result = result + newLine;
+    		level++;
+    	}
+    	return result;
+    }
+    
+    //This is method backwards that prints the toString() method in the backward order.
+    public String backwards() {
+    	String result = "[";
+    	ArrayList<E> temp = new ArrayList<>();
+    	
     	for(int i=0; i<elementData.length; i++) {
-    		int sizeCount = 1;
     		HashEntry<E> current = elementData[i];
     		if(current != null) {
     			while(current.next != null) {
+    				temp.add(current.data);
     				current = current.next;
-    				sizeCount++;
+    			}
+    			if(current.next == null) {
+    				temp.add(current.data);
     			}
     		}
-    		if(current != null) {
-    			String data = "" + current.data;
-    			result = result + data;
-    			for(int j=0; j<10-data.length(); j++) {
-    				result = result + " ";
-    			}
-    		} else {
-    			result = result + spacing + "   ";
-    		}
-    		
-    		if(sizeCount > sizeEntry) {
-    			sizeEntry = sizeCount;
-    		}
-    	}
-
-    	while(sizeEntry-1 != 0) {
-        	for(int i=0; i<elementData.length; i++) {
-        		HashEntry<E> current = elementData[i];
-        		if(current != null) {
-        			while(current.next != null) {
-        				current = current.next;
-        			}
-        		}
-        		if(current != null) {
-        			String data = "" + current.data;
-        			System.out.println(data);
-        			result = result + data;
-        			for(int j=0; j<10-data.length(); j++) {
-        				result = result + " ";
-        			}
-        		} else {
-        			result = result + spacing + "   ";
-        		}
-        	}
-        	sizeEntry--;
     	}
     	
-    	return result;
+    	if(temp.size() != 0) {
+    		result = result + temp.get(temp.size()-1);
+    		for(int i=temp.size()-2; i>=0; i--) {
+    			result = result + ", " + temp.get(i);
+    		}
+    	}
+    	
+    	result = result + "]";
+    	
+		return result;
     }
     
     
@@ -180,7 +221,6 @@ public class HashSet<E> {
         return result + "]";
     }
     
-    
     // Returns the preferred hash bucket index for the given value.
     private int hashFunction(E value) {
         return Math.abs(value.hashCode()) % elementData.length;
@@ -225,4 +265,3 @@ public class HashSet<E> {
         }
     }
 }
-
